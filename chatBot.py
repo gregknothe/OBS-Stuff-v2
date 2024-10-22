@@ -8,6 +8,8 @@ gl = pd.read_csv("https://raw.githubusercontent.com/gregknothe/OBS-Stuff/refs/he
 rgl = pd.read_csv("https://raw.githubusercontent.com/GGSTFrameTrap/gameList/main/ranceGameList.csv", sep = "|")
 mgl = pd.read_csv("https://raw.githubusercontent.com/gregknothe/OBS-Stuff/refs/heads/main/monuGameList.csv", sep="|")
 
+cards = pd.read_csv()
+
 heyList = []
 modList = ["lastclaire", "greedx___", "asome26", "nastyplot", "botthewoz", "frendweeb", "gdom", "redditto", "sajam", "wooper_enthusiast",
            "joshgrilli", "sindercenpai", "hotashi", "linkl0nk", "chris_re5", "voidashe", "the_doc_", "abusywitch", "lament_03", "kyluneena",
@@ -42,7 +44,6 @@ bot = commands.Bot(
     prefix=['!'],
     initial_channels=['botthewoz']
 )
-
 
 @bot.command(name="hey", aliases=("Hey", "HEY"))
 async def hey(ctx):
