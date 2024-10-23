@@ -8,7 +8,7 @@ gl = pd.read_csv("https://raw.githubusercontent.com/gregknothe/OBS-Stuff/refs/he
 rgl = pd.read_csv("https://raw.githubusercontent.com/GGSTFrameTrap/gameList/main/ranceGameList.csv", sep = "|")
 mgl = pd.read_csv("https://raw.githubusercontent.com/gregknothe/OBS-Stuff/refs/heads/main/monuGameList.csv", sep="|")
 
-cards = pd.read_csv()
+cards = pd.read_csv("https://raw.githubusercontent.com/gregknothe/OBS-Stuff-v2/refs/heads/main/cardGamble/finalFile.csv", sep="|")
 
 heyList = []
 modList = ["lastclaire", "greedx___", "asome26", "nastyplot", "botthewoz", "frendweeb", "gdom", "redditto", "sajam", "wooper_enthusiast",
