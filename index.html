@@ -1,0 +1,96 @@
+<html>
+    <link rel="stylesheet" href="stylesheet.css">
+    <body>
+        <h1>
+            Card Gallery
+        </h1>
+        <div id="searchContainer">
+            <a id="searchLabel">Twitch Username: </a>
+            <input id="search">
+            <button id="button">Search</button>
+        </div>
+        <div id="table">
+
+            
+            <div class="cell">
+                <img src="https://images.ygoprodeck.com/images/cards/89631139.jpg" class="cardImg">
+                <div class="nameContainer">
+                    Blue Eyes White Dragon
+                </div>
+                <div class="cardInfo">
+                    <div class="game_rarity">
+                        <div class="game">
+                            Yu-gi-oh
+                        </div>
+                        <div class="rarity">
+                            Ultra Rare
+                        </div>
+                    </div>
+                    <div class="set_owner">
+                        <div class="set">
+                            Legend of Blueeyes: retro pack 2024 
+                        
+                        </div>
+                        <div class="owner">
+                            allegatorsaredope
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            
+        </div>
+    </body>
+</html>
+
+<script>
+    function parseCSV(text) {
+        const rows = text.trim().split('\n');
+        return rows.map(row => row.split('|'));
+    }
+    
+    function createTable(data) {
+        const table = document.createElement('table');
+        
+        data.forEach((row, index) => {
+            const tr = document.createElement('tr');
+            var counter = 0;
+            row.forEach(cell => {
+                const td = document.createElement(index === 0 ? 'th' : 'td');
+                if (cell.includes("https:")) {
+                    cell = '<img src="' + cell + '" class="cardImage">';
+                    td.innerHTML = cell;
+                    tr.appendChild(td);
+                }
+                else if (counter == 1) {
+                    cell = "<a href='https://yugipedia.com/wiki/"+ cell.replace(/ /g,"_").replace("'","%27") +"'class='hyperlink'>"+cell +"</a>";
+                    td.innerHTML = cell;
+                    tr.appendChild(td);
+                }
+                else {
+                    td.innerHTML = '<div class="statCell">' + cell + '</div>';
+                    tr.appendChild(td);
+                }
+                counter = counter + 1;
+                if (counter == 4) {
+                    coutner = 0;
+                }
+            });
+            
+            table.appendChild(tr);
+        });
+
+        return table;
+}
+
+
+async function displayCSV(url) {
+    const csvText = await fetchCSV(url);
+    if (csvText) {
+        const parsedData = parseCSV(csvText);
+        const table = createTable(parsedData);
+        document.getElementById('table-container').appendChild(table);
+    }
+}
+</script>
