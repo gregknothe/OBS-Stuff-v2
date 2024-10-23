@@ -56,16 +56,22 @@ def ohHey(username):
     return title, img, rarity, chatText
 
 def drawCards(username):
+    global cards
+    global ownedCards
     unownedCards = cards[cards["owner"]==""]
     newCards = rand.sample(list(unownedCards.index), packSize)
     imgList = []
-    global ownedCards
     for card in newCards:
         cards.at[card, "owner"] = username
         ownedCards.loc[len(ownedCards)] = list(cards.loc[card])
         imgList.append(cards.loc[card, "imgURL"])
     ownedCards.to_csv("E:\Various Programs\Coding Projects\OBS Stuff v2\cardBackup.csv", sep="|", index=False)
     return newCards, imgList[0], imgList[1], imgList[2], imgList[3], imgList[4]
+
+def saveCards():
+    global cards
+    cards.to_csv("E:/Various Programs/Coding Projects/OBS Stuff v2/finalFile.csv", sep="|", index=False)
+    return
 
 #----------------------------------Chat Bot Code------------------------------------#
 bot = commands.Bot(
@@ -106,6 +112,13 @@ async def openCardPack(ctx):
     cards = drawCards(ctx.author.name)
     display_card(cards[1], cards[2], cards[3], cards[4], cards[5], ctx.author.name)
     await ctx.send(str(cards[0]) + " @" + ctx.author.name)
+    return
+
+@bot.command(name="save")
+async def saveFile(ctx):
+    if ctx.author.name in modList:
+        saveCards()
+        await ctx.send("Card file saved. PogChamp")
     return
 
 if __name__ == "__main__":
@@ -214,7 +227,7 @@ def display_card(img1, img2, img3, img4, img5, username):
     obs.obs_sceneitem_set_visible(group, True)
 
     #Hides the visuals after set durration time.
-    def hide_group():
+    def hide_group2():
         obs.obs_sceneitem_set_visible(group, False)
 
         #Releasing the sources.
@@ -228,7 +241,7 @@ def display_card(img1, img2, img3, img4, img5, username):
         obs.obs_source_release(groupSource)
         obs.obs_scene_release(scene)
 
-    threading.Timer(durration, hide_group).start()
+    threading.Timer(durration, hide_group2).start()
 
 
 
