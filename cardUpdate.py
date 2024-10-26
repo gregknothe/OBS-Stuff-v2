@@ -15,9 +15,9 @@ def userCardFiles():
 
 #userCardFiles()
 
-df = pd.read_csv("cardList.csv", sep="|").fillna("")
-df["id"] = df["id"].astype("int")
+#df = pd.read_csv("cardList.csv", sep="|").fillna("")
+#df["id"] = df["id"].astype("int")
 #print(df)
 
-print(df.index[df.index == 119446])
+#print(df.index[df.index == 119446])
 #print(df["owner"][21166])
