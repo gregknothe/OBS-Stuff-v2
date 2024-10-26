@@ -9,35 +9,11 @@
             <input id="search">
             <button id="button">Search</button>
         </div>
+        <div id="favTable">
+
+        </div>
         <div id="table">
 
-            <!---
-            <div class="cell">
-                <img src="https://images.ygoprodeck.com/images/cards/89631139.jpg" class="cardImg">
-                <div class="nameContainer">
-                    Blue Eyes White Dragon
-                </div>
-                <div class="cardInfo">
-                    <div class="game_rarity">
-                        <div class="game">
-                            Yu-gi-oh
-                        </div>
-                        <div class="rarity">
-                            Ultra Rare
-                        </div>
-                    </div>
-                    <div class="set_owner">
-                        <div class="set">
-                            Legend of Blueeyes: retro pack 2024 
-                        
-                        </div>
-                        <div class="owner">
-                            allegatorsaredope
-                        </div>
-                    </div>
-                </div>
-            </div>
-            -->
         </div>
 
         </div>
@@ -77,23 +53,27 @@
             const set_owner = document.createElement("div");
             set_owner.className = "set_owner";
             const name = document.createElement("div");
+            const cardID = document.createElement("div");
             const rarity = document.createElement("div");
             const cardImg = document.createElement("img");
+            const cardLink = document.createElement("a");
             const game = document.createElement("div");
             const set = document.createElement("div");
             const owner = document.createElement("div");
+            var fav = 0;
             var col = 0;
             row.forEach(cell => {
                 if (col == 0) {
-                    /*name.className = "nameContainer";*/
                     name.textContent = cell;
+                    name.className = "infoText";
                 }
                 else if (col == 1) {
-                    col = col;
+                    cardID.textContent = cell;
+                    cardID.className = "infoText";
                 }
                 else if (col == 2) {
-                    rarity.className = "rarity";
                     rarity.textContent = cell;
+                    rarity.className = "infoText";
                 }
                 else if (col == 3) {
                     cardImg.className = "cardImg";
@@ -103,35 +83,73 @@
                     col = col;
                 }
                 else if (col == 5) {
-                    game.className = "game";
                     game.textContent = cell;
+                    game.className = "infoText";
                 }
                 else if (col == 6) {
-                    set.className = "set";
                     set.textContent = cell;
+                    set.className = 'infoText'
                 }                
                 else if (col == 7) {
                     col = col;
                 }
                 else if (col == 8) {
-                    owner.className = "owner";
                     owner.textContent = cell;
+                    owner.className = "infoText";
+                }
+                else if (col == 9) {
+                    fav = cell;
                 }
                 col = col + 1;
             });         
-            table.appendChild(cardCell);
+            
 
             cardCell.appendChild(cardImg);
+
             cardCell.appendChild(cardInfo);
-            /*cardCell.appendChild(name);
-            cardCell.appendChild(cardInfo);
-            cardInfo.appendChild(game_rarity);
-            game_rarity.appendChild(game);
-            game_rarity.appendChild(rarity);
-            cardInfo.appendChild(set_owner);
-            set_owner.appendChild(set);
-            set_owner.appendChild(owner);*/
+
+            const nameLabel = document.createElement("div");
+            nameLabel.textContent = "name:";
+            nameLabel.className = "infoTextLabel";
+            name.href = cardImg.src;
+            cardInfo.appendChild(nameLabel);
             cardInfo.appendChild(name);
+
+            const cardIDLabel = document.createElement("div");
+            cardIDLabel.textContent = "card id:";
+            cardIDLabel.className = "infoTextLabel";
+            cardInfo.appendChild(cardIDLabel);
+            cardInfo.appendChild(cardID);
+
+            const rarityLabel = document.createElement("div");
+            rarityLabel.textContent = "rarity:";
+            rarityLabel.className = "infoTextLabel";
+            cardInfo.appendChild(rarityLabel);
+            cardInfo.appendChild(rarity);
+
+            const gameLabel = document.createElement("div");
+            gameLabel.textContent = "game:";
+            gameLabel.className = "infoTextLabel";
+            cardInfo.appendChild(gameLabel);
+            cardInfo.appendChild(game);
+
+            const setLabel = document.createElement("div");
+            setLabel.textContent = "set:";
+            setLabel.className = "infoTextLabel";
+            cardInfo.appendChild(setLabel);
+            cardInfo.appendChild(set);
+            
+            const ownerLabel = document.createElement("div");
+            ownerLabel.textContent = "owner:";
+            ownerLabel.className = "infoTextLabel";
+            cardInfo.appendChild(ownerLabel);
+            cardInfo.appendChild(owner);
+            if (fav == 1) {
+                favTable.appendChild(cardCell);
+            }
+            else {
+                table.appendChild(cardCell);
+            }
         });
     }
 
@@ -148,11 +166,11 @@
             console.log('Card clicked:', event.target.textContent);
             /*document.querySelector('.cardInfo').classList.toggle("expanded");*/
             /*event.target.style.backgroundColor = 'lightblue';*/
-            if (event.target.style.height == "10%") {
-                event.target.style.height = "100%";
+            if (event.target.style.height == "100%") {
+                event.target.style.height = "8%";
             }
             else {
-                event.target.style.height = "10%";
+                event.target.style.height = "100%";
             }
         }
     });
