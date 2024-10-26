@@ -12,8 +12,9 @@ gl = pd.read_csv("https://raw.githubusercontent.com/gregknothe/OBS-Stuff/refs/he
 rgl = pd.read_csv("https://raw.githubusercontent.com/GGSTFrameTrap/gameList/main/ranceGameList.csv", sep = "|")
 mgl = pd.read_csv("https://raw.githubusercontent.com/gregknothe/OBS-Stuff/refs/heads/main/monuGameList.csv", sep="|")
 cards = pd.read_csv("https://raw.githubusercontent.com/gregknothe/OBS-Stuff-v2/refs/heads/main/cardList.csv", sep="|").fillna("")
+cards["id"] = cards["id"].astype(int)
 
-ownedCards = pd.DataFrame(columns=["name", "id", "rarity", "imgURL", "setID", "game", "set", "date", "owner"])
+ownedCards = pd.DataFrame(columns=["name", "id", "rarity", "imgURL", "setID", "game", "set", "date", "owner", "fav"])
 
 silver = r"C:\Users\Greg Knothe\Desktop\silverClaireAnimated.gif"
 gold = r"C:\Users\Greg Knothe\Desktop\silverClaireAnimated.gif"
@@ -62,6 +63,8 @@ def drawCards(username):
     imgList = []
     for card in newCards:
         cards.at[card, "owner"] = username
+        print(cards.columns)
+        print(ownedCards.columns)
         ownedCards.loc[len(ownedCards)] = list(cards.loc[card])
         imgList.append(cards.loc[card, "imgURL"])
     ownedCards.to_csv("E:\Various Programs\Coding Projects\OBS Stuff v2\cardBackup.csv", sep="|", index=False)
@@ -112,6 +115,31 @@ async def openCardPack(ctx):
     display_card(cards[1], cards[2], cards[3], cards[4], cards[5], ctx.author.name)
     await ctx.send(str(cards[0]) + " @" + ctx.author.name)
     return
+
+@bot.command(name="fav")
+async def favoriteCard(ctx, *, text):
+    global cards
+    text = text.split(" ")
+    #print(int(text[0]))
+    #print(type(int(text[0])))
+    #print(cards["id"][1])
+    #print(type(cards["id"][1]))
+    #print(339981 == cards["id"][1])
+    #print(cards.index[cards["id"]==int(text[0])][0])
+    #await ctx.send(currIndex)
+    #await ctx.send(cards["name"][2])
+    #print(cards.loc[cards["id"] == int(text[0]), "owner"].values[0])
+    print(ctx.author.name)
+    print(text[0])
+    print(cards["owner"][int(text[0])])
+    try:
+        if ctx.author.name == str(cards["owner"][int(text[0])]):
+            await ctx.send("you own the card")
+            cards.loc[int(text[0]), "fav"] = int(text[1])
+        else:
+            await ctx.send("You do not own that card.🐛")
+    except:
+        await ctx.send("Something went wrong.😔")
 
 @bot.command(name="save")
 async def saveFile(ctx):
