@@ -6,7 +6,9 @@
         </h1>
         <div id="searchContainer">
             <a id="searchLabel">Twitch Username: </a>
-            <select id="userList"></select>
+            <select id="userList">
+                <option>Twitch Username</option>
+            </select>
             <button id="button" onclick="runCode()">Search</button>
         </div>
 
@@ -160,6 +162,7 @@
 
     fetchCSV(csvUrl).then(data => {
         if (data) {
+            console.log(data);
             displayCSV(data);
         }
     });
@@ -228,14 +231,15 @@
         }
     }
 
-    initializeDropdown()
+    initializeDropdown();
 
     var user = "";
     var userList = document.getElementById("userList");
-    
+
     userList.addEventListener("change", function(){
         user = userList.value;
-        csvURL = "https://raw.githubusercontent.com/gregknothe/OBS-Stuff-v2/refs/heads/main/userDataFrames/"+user+".csv";
+        csvUrl = "https://raw.githubusercontent.com/gregknothe/OBS-Stuff-v2/refs/heads/main/userDataFrames/"+user+".csv";
+        console.log(csvUrl);
     });
     
     async function removeTable() {
@@ -243,10 +247,20 @@
         document.getElementById("favTable").innerHTML = "";
     }
 
-    async function runCode() {
+    function runCode() {
         removeTable();
-        /*console.log(csvURL);*/
-        displayCSV(csvURL);
+        console.log(csvUrl);
+        /*
+        currData = fetchCSV(csvUrl);
+        console.log(currData);
+        displayCSV(currData); 
+        */
+        fetchCSV(csvUrl).then(data => {
+        if (data) {
+            console.log(data);
+            displayCSV(data);
+        }
+        });
     }
 
 </script>
@@ -254,11 +268,7 @@
 <!--
 
 Data:
-remove headers
-remove "-" from game 
 change rarity to new format
-cahnge cardID to int instead of float
-add favorite value
 
 Chat bot:
 add favorite command
