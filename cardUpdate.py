@@ -13,7 +13,7 @@ def userCardFiles():
     userListDF.to_csv("E:/Various Programs/Coding Projects/OBS Stuff v2/userDataFrames/userList.csv", sep="|", header=False, index=False)
     return
 
-#userCardFiles()
+userCardFiles()
 
 #df = pd.read_csv("cardList.csv", sep="|").fillna("")
 #df["id"] = df["id"].astype("int")
