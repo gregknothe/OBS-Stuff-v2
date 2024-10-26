@@ -1,6 +1,11 @@
-name|id|rarity|imgURL|setID|game|set|date|owner
-Scent of Jasmine|769681|10.0|https://api.ccgtrader.co.uk/uploads/_/originals/d803e6b4-8dc5-4cc9-a057-dee13f0a08e0.jpg|160|magic-the-gathering-ccg|Urza's Destiny|1999-06-07|botthewoz
-Prowler's Helm|769718|20.0|https://api.ccgtrader.co.uk/uploads/_/originals/82129993-1d65-472e-bee1-ff00340c4009.jpg|1393|magic-the-gathering-ccg|Theros|2013-09-27|botthewoz
-Obsidian Enforcer|682822|10.0|https://api.ccgtrader.co.uk/uploads/_/originals/3257fa4c-1cc9-41fa-9f6c-36f1b2854522.jpg|1712|world-of-warcraft-tcg|Twilight of the Dragons|2011-07-01|botthewoz
-Namorita|692485|20.0|https://api.ccgtrader.co.uk/uploads/_/originals/69006e32-dafd-4a3a-8452-9eb611afa533.jpg|2123|dice-masters|Civil War|2016-05-11|botthewoz
-ゲキリュウノツガイ|965438|20.0|https://api.ccgtrader.co.uk/uploads/_/originals/4a0a0575-66e6-4aa9-a64c-989db3daed09.jpg|4993|monster-hunter-hunting-card-tcg|B01 - Shadow of the Forest|2008-10-25|botthewoz
+name|id|rarity|imgURL|setID|game|set|date|owner|fav
+MetalGreymon|245174|30|https://api.ccgtrader.co.uk/uploads/_/originals/6a43cab8-1a3f-4c86-94a6-ad6653d25024.jpg|690|digi battle ccg|Series 3 Booster||botthewoz|0
+Volcano Cake|363155|30|https://api.ccgtrader.co.uk/uploads/_/originals/ec4e99ed-3a7d-4023-bd10-ecc13fe3d099.jpg|1149|neopets tcg|Darkest Faerie||botthewoz|0
+Shiranui Swordsaga|825036|10|https://images.ygoprodeck.com/images/cards/26326541.jpg|3587|yu gi oh tcg|Savage Strike|2019-01-31|botthewoz|0
+Shadowfax, Lord of Horses|1017673|20|https://cards.scryfall.io/large/front/4/c/4c7d861d-7832-4c15-8d6c-8c07a9a57891.jpg?1686970028|5421|magic the gathering ccg|The Lord of the Rings: Tales of Middle-earth|2023-06-23|botthewoz|0
+Besora Galefeather|685417|10|https://api.ccgtrader.co.uk/uploads/_/originals/a5b88630-db1e-4aa7-b008-3a3793454dba.jpg|1873|world of warcraft tcg|2010 Class Starter Sets|2010-07-01|botthewoz|0
+Black Masked Saiyan, the Devestator|688057|48|https://api.ccgtrader.co.uk/uploads/_/originals/948cdd9e-04b7-4fa0-9fe7-4c2f765b14fb.jpg|2315|dragon ball super card game|Miraculous Revival [BT5]|2018-11-09|botthewoz|0
+Sephiran: Chancellor of the Begnion Empire|960176|12|https://api.ccgtrader.co.uk/uploads/_/originals/543875ae-33ae-46b4-8d63-280a59a227cc.jpg|4946|fire emblem cipher tcg|B16 - O Courage! O Soul Aflame!|2019-03-22|botthewoz|0
+Clefable|668392|20|https://api.ccgtrader.co.uk/uploads/_/originals/a319a98d-c4e8-4fa3-836f-6f61eb23cb8e.jpg|993|pokemon tcg|Unseen Forces|2005-08-22|botthewoz|0
+Sableye|668781|40|https://api.ccgtrader.co.uk/uploads/_/originals/c0f882af-480e-4510-97d1-74a9725377d7.jpg|997|pokemon tcg|Crystal Guardians|2006-08-30|botthewoz|0
+Vaporeon|669609|30|https://api.ccgtrader.co.uk/uploads/_/originals/eb03a36f-1d68-46c3-a5cd-ae31a40d754e.jpg|1121|pokemon tcg|Majestic Dawn|2008-05-01|botthewoz|0
