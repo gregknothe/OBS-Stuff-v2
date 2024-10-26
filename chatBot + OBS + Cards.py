@@ -22,13 +22,18 @@ rainbow = r"C:\Users\Greg Knothe\Desktop\silverClaireAnimated.gif"
 rance = r"C:\Users\Greg Knothe\Desktop\silverClaireAnimated.gif"
 
 heyList = []
+packList = []
 modList = ["lastclaire", "greedx___", "asome26", "nastyplot", "botthewoz", "frendweeb", "gdom", "redditto", "sajam", "wooper_enthusiast",
            "joshgrilli", "sindercenpai", "hotashi", "linkl0nk", "chris_re5", "voidashe", "the_doc_", "abusywitch", "lament_03", "kyluneena",
            "jackpotfm", "nastyplot", "nbnhmr", "ailubee", "meowzykat", "squirrel147"]    
 
-currTimeStamp = time.time()
+heyTimeStamp = time.time()
 cooldown = 6
 durration = 5
+
+packTimeStamp = time.time()
+cooldown2 = 7
+durration2 = 6
 packSize = 5
 
 hotkey_id = obs.OBS_INVALID_HOTKEY_ID
@@ -86,13 +91,13 @@ bot = commands.Bot(
 
 @bot.command(name="hey", aliases=("Hey", "HEY"))
 async def hey(ctx):
-    global currTimeStamp
+    global heyTimeStamp
     if ctx.author.name not in heyList:
-        if time.time() - currTimeStamp >= cooldown:
+        if time.time() - heyTimeStamp >= cooldown:
             data = ohHey(ctx.author.name)
             await ctx.send(data[3])
             heyList.append(ctx.author.name)
-            currTimeStamp = time.time()
+            heyTimeStamp = time.time()
             display_game(data[0], data[1], data[2], ctx.author.name)
         else:
             await ctx.send("!hey is on cooldown.🐛")
@@ -111,10 +116,28 @@ async def heyRemove(ctx, *, text):
 
 @bot.command(name="pack")
 async def openCardPack(ctx):
-    cards = drawCards(ctx.author.name)
-    display_card(cards[1], cards[2], cards[3], cards[4], cards[5], ctx.author.name)
-    await ctx.send(str(cards[0]) + " @" + ctx.author.name)
+    global packTimeStamp
+    if ctx.author.name not in packList:
+        if time.time() - packTimeStamp >= cooldown2:
+            cards = drawCards(ctx.author.name)
+            display_card(cards[1], cards[2], cards[3], cards[4], cards[5], ctx.author.name)
+            packList.append(ctx.author.name)
+            packTimeStamp = time.time()
+            await ctx.send(str(cards[0]) + " @" + ctx.author.name)
+        else: 
+            await ctx.send("!pack is on cooldown.🐛")
+    else: 
+        await ctx.send("You already used your !pack. @" + ctx.author.name)
     return
+
+@bot.command(name="pr")
+async def packRemove(ctx, *, text):
+    if ctx.author.name in modList:
+        try:
+            packList.remove(text.lower())
+            await ctx.send("@" + text.lower() + " has been given another !pack.")
+        except:
+            await ctx.send("Something went wrong.😔")
 
 @bot.command(name="fav")
 async def favoriteCard(ctx, *, text):
@@ -134,7 +157,6 @@ async def favoriteCard(ctx, *, text):
     print(cards["owner"][int(text[0])])
     try:
         if ctx.author.name == str(cards["owner"][int(text[0])]):
-            await ctx.send("you own the card")
             cards.loc[int(text[0]), "fav"] = int(text[1])
         else:
             await ctx.send("You do not own that card.🐛")
@@ -268,7 +290,7 @@ def display_card(img1, img2, img3, img4, img5, username):
         obs.obs_source_release(groupSource)
         obs.obs_scene_release(scene)
 
-    threading.Timer(durration, hide_group2).start()
+    threading.Timer(durration2, hide_group2).start()
 
 
 
@@ -302,3 +324,8 @@ def script_update(settings):
 def script_properties():
     cat = "cat"
     return
+
+#Make a check for !fav to remove already existing same fav values 
+#Add cooldown to !pack so animation doesnt get fucked
+#Format rarity 
+#
