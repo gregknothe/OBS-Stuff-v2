@@ -30,6 +30,10 @@ hr {
     color: white;
 }
 
+#userList {
+    width: 150px;
+}
+
 #table, #favTable {
     display: flex;
     flex-wrap: wrap;
