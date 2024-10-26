@@ -1,0 +1,125 @@
+<html>
+    <link rel="stylesheet" href="stylesheet.css">
+    <body>
+        <h1>
+            Card Gallery
+        </h1>
+        <div id="searchContainer">
+            <a id="searchLabel">Twitch Username: </a>
+            <input id="search">
+            <button id="button">Search</button>
+        </div>
+        <div id="table">
+
+            
+            <div class="cell">
+                <img src="https://images.ygoprodeck.com/images/cards/89631139.jpg" class="cardImg">
+                <div class="nameContainer">
+                    Blue Eyes White Dragon
+                </div>
+                <div class="cardInfo">
+                    <div class="game_rarity">
+                        <div class="game">
+                            Yu-gi-oh
+                        </div>
+                        <div class="rarity">
+                            Ultra Rare
+                        </div>
+                    </div>
+                    <div class="set_owner">
+                        <div class="set">
+                            Legend of Blueeyes: retro pack 2024 
+                        
+                        </div>
+                        <div class="owner">
+                            allegatorsaredope
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            
+        </div>
+    </body>
+</html>
+
+<script>
+
+    async function fetchCSV(url) {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('Network response was not ok');
+            
+            const text = await response.text();
+            return parseCSV(text);
+        } catch (error) {
+            console.error('Error fetching the CSV:', error);
+        }
+    }
+
+    function parseCSV(data) {
+        const rows = data.split('\n');
+        return rows.map(row => row.split('|'));
+    }
+
+    function displayCSV(data) {
+        const table = document.getElementById('table');
+        
+        data.forEach((row, index) => {
+            const cardCell = document.createElement('div').setAttribute("class", "cell");
+            var col = 0;
+            row.forEach(cell => {
+                if (col == 0) {
+                    const name = document.createElement("div").setAtrribute("class", "nameContainer");
+                    name.textContent = cell;
+                }
+                else if (col == 1) {
+                    col = col;
+                }
+                else if (col == 2) {
+                    const rarity = document.createElement("div").setAttribute("class", "rarity");
+                    rarity.textContent = cell;
+                }
+                else if (col == 3) {
+                    const img = document.createElement("img").setAttribute("class", 'cardImg');
+                    img.setAtrribute("src", cell)
+                }
+                else if (col == 4) {
+                    col = col;
+                }
+                else if (col == 5) {
+                    const game = document.createElement("div").setAtrribute("class", "game");
+                    game.textContent = cell;
+                }
+                else if (col == 6) {
+                    const set = document.createElement("div").setAtrribute("class", "set");
+                    set.textContent = cell;
+                }                
+                else if (col == 7) {
+                    col = col;
+                }
+                else if (col == 8) {
+                    const owner = document.createElement("div").setAtrribute("class", "owner");
+                    owner.textContent = cell;
+                }
+                col = col + 1;
+            });
+            cardCell.appendChild(name);
+            cardCell.appendChild(rarity);
+            cardCell.appendChild(imgURL);
+            cardCell.appendChild(game);
+            cardCell.appendChild(set);
+            cardCell.appendChild(owner);
+        });
+        table.appendChild(cardCell);
+    }
+
+    const csvUrl = 'https://raw.githubusercontent.com/gregknothe/OBS-Stuff-v2/refs/heads/main/testCSV.csv'; 
+    fetchCSV(csvUrl).then(data => {
+        if (data) {
+            displayCSV(data);
+        }
+    });
+
+</script>

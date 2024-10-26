@@ -69,7 +69,7 @@ def drawCards(username):
 
 def saveCards():
     global cards
-    cards.to_csv("E:/Various Programs/Coding Projects/OBS Stuff v2/finalFile.csv", sep="|", index=False)
+    cards.to_csv("E:/Various Programs/Coding Projects/OBS Stuff v2/cardList.csv", sep="|", index=False)
     return
 
 #----------------------------------Chat Bot Code------------------------------------#

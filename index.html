@@ -1,5 +1,5 @@
 <html>
-    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="styles.css">
     <body>
         <h1>
             Card Gallery
@@ -9,38 +9,17 @@
             <input id="search">
             <button id="button">Search</button>
         </div>
-        <div id="table">
 
-            
-            <div class="cell">
-                <img src="https://images.ygoprodeck.com/images/cards/89631139.jpg" class="cardImg">
-                <div class="nameContainer">
-                    Blue Eyes White Dragon
-                </div>
-                <div class="cardInfo">
-                    <div class="game_rarity">
-                        <div class="game">
-                            Yu-gi-oh
-                        </div>
-                        <div class="rarity">
-                            Ultra Rare
-                        </div>
-                    </div>
-                    <div class="set_owner">
-                        <div class="set">
-                            Legend of Blueeyes: retro pack 2024 
-                        
-                        </div>
-                        <div class="owner">
-                            allegatorsaredope
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <h2>Favorites</h2>
+        <hr>
+        <div id="favTable"></div>
+        <hr style="margin-top: 0">
+        
+        <h2>Collection</h2>
+        <hr>
+        <div id="table"></div>
+        <hr style="margin-top: 0">
 
-            
-            
-        </div>
     </body>
 </html>
 
@@ -65,54 +44,116 @@
 
     function displayCSV(data) {
         const table = document.getElementById('table');
+        const favTable = document.getElementById("favTable");
         
         data.forEach((row, index) => {
-            const cardCell = document.createElement('div').setAttribute("class", "cell");
+            const cardCell = document.createElement("div");
+            cardCell.className = "cell";
+            const cardInfo = document.createElement("div");
+            cardInfo.className = "cardInfo";
+            cardInfo.textContent = "Card Info";
+            const game_rarity = document.createElement("div");
+            game_rarity.className = "game_rarity";
+            const set_owner = document.createElement("div");
+            set_owner.className = "set_owner";
+            const name = document.createElement("div");
+            const cardID = document.createElement("div");
+            const rarity = document.createElement("div");
+            const cardImg = document.createElement("img");
+            const cardLink = document.createElement("a");
+            const game = document.createElement("div");
+            const set = document.createElement("div");
+            const owner = document.createElement("div");
+            var fav = 0;
             var col = 0;
             row.forEach(cell => {
                 if (col == 0) {
-                    const name = document.createElement("div").setAtrribute("class", "nameContainer");
                     name.textContent = cell;
+                    name.className = "infoText";
                 }
                 else if (col == 1) {
-                    col = col;
+                    cardID.textContent = cell;
+                    cardID.className = "infoText";
                 }
                 else if (col == 2) {
-                    const rarity = document.createElement("div").setAttribute("class", "rarity");
                     rarity.textContent = cell;
+                    rarity.className = "infoText";
                 }
                 else if (col == 3) {
-                    const img = document.createElement("img").setAttribute("class", 'cardImg');
-                    img.setAtrribute("src", cell)
+                    cardImg.className = "cardImg";
+                    cardImg.src = cell;
                 }
                 else if (col == 4) {
                     col = col;
                 }
                 else if (col == 5) {
-                    const game = document.createElement("div").setAtrribute("class", "game");
                     game.textContent = cell;
+                    game.className = "infoText";
                 }
                 else if (col == 6) {
-                    const set = document.createElement("div").setAtrribute("class", "set");
                     set.textContent = cell;
+                    set.className = 'infoText'
                 }                
                 else if (col == 7) {
                     col = col;
                 }
                 else if (col == 8) {
-                    const owner = document.createElement("div").setAtrribute("class", "owner");
                     owner.textContent = cell;
+                    owner.className = "infoText";
+                }
+                else if (col == 9) {
+                    fav = cell;
                 }
                 col = col + 1;
-            });
-            cardCell.appendChild(name);
-            cardCell.appendChild(rarity);
-            cardCell.appendChild(imgURL);
-            cardCell.appendChild(game);
-            cardCell.appendChild(set);
-            cardCell.appendChild(owner);
+            });         
+            
+            cardCell.appendChild(cardImg);
+            cardCell.appendChild(cardInfo);
+
+            const nameLabel = document.createElement("div");
+            nameLabel.textContent = "name:";
+            nameLabel.className = "infoTextLabel";
+            name.href = cardImg.src;
+            cardInfo.appendChild(nameLabel);
+            cardInfo.appendChild(name);
+
+            const cardIDLabel = document.createElement("div");
+            cardIDLabel.textContent = "card id:";
+            cardIDLabel.className = "infoTextLabel";
+            cardInfo.appendChild(cardIDLabel);
+            cardInfo.appendChild(cardID);
+
+            const rarityLabel = document.createElement("div");
+            rarityLabel.textContent = "rarity:";
+            rarityLabel.className = "infoTextLabel";
+            cardInfo.appendChild(rarityLabel);
+            cardInfo.appendChild(rarity);
+
+            const gameLabel = document.createElement("div");
+            gameLabel.textContent = "game:";
+            gameLabel.className = "infoTextLabel";
+            cardInfo.appendChild(gameLabel);
+            cardInfo.appendChild(game);
+
+            const setLabel = document.createElement("div");
+            setLabel.textContent = "set:";
+            setLabel.className = "infoTextLabel";
+            cardInfo.appendChild(setLabel);
+            cardInfo.appendChild(set);
+            
+            const ownerLabel = document.createElement("div");
+            ownerLabel.textContent = "owner:";
+            ownerLabel.className = "infoTextLabel";
+            cardInfo.appendChild(ownerLabel);
+            cardInfo.appendChild(owner);
+
+            if (fav == 0) {
+                table.appendChild(cardCell);
+            }
+            else {
+                favTable.appendChild(cardCell);
+            }
         });
-        table.appendChild(cardCell);
     }
 
     const csvUrl = 'https://raw.githubusercontent.com/gregknothe/OBS-Stuff-v2/refs/heads/main/testCSV.csv'; 
@@ -122,4 +163,42 @@
         }
     });
 
+    table.addEventListener('click', function(event) {
+    if (event.target.classList.contains('cardInfo')) {
+            console.log('Card clicked:', event.target.textContent);
+            if (event.target.style.height == "100%") {
+                event.target.style.height = "8%";
+            }
+            else {
+                event.target.style.height = "100%";
+            }
+        }
+    });
+
+    favTable.addEventListener('click', function(event) {
+    if (event.target.classList.contains('cardInfo')) {
+            console.log('Card clicked:', event.target.textContent);
+            if (event.target.style.height == "100%") {
+                event.target.style.height = "8%";
+            }
+            else {
+                event.target.style.height = "100%";
+            }
+        }
+    });
+
 </script>
+
+<!--
+
+Data:
+remove headers
+remove "-" from game 
+change rarity to new format
+cahnge cardID to int instead of float
+add favorite value
+
+Chat bot:
+add favorite command
+
+-->

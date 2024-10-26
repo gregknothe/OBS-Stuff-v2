@@ -214,8 +214,13 @@ def createFinalFile():
         if "https://storage.googleapis.com/ygoprodeck.com" in finalDF.at[x, "imgURL"]:
             finalDF.loc[x, "imgURL"] = finalDF.at[x, "imgURL"].replace("https://storage.googleapis.com/ygoprodeck.com/pics/", "https://images.ygoprodeck.com/images/cards/")
     finalDF["owner"] = ""
-    finalDF.to_csv("cardGamble/finalFile.csv", sep="|", index=False)
+    finalDF["fav"] = 0
+    finalDF["id"] = finalDF["id"].astype(int)
+    finalDF["rarity"] = finalDF["rarity"].astype(int)
+    finalDF["game"] = finalDF["game"].str.replace('-', ' ', regex=False)
+    finalDF.to_csv("cardList.csv", sep="|", index=False)
     return finalDF
 
 createFinalFile()
+
 
