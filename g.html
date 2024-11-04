@@ -1,0 +1,220 @@
+<html>
+    <link rel="stylesheet" href="styles.css">
+    <body>
+        <h1>
+            Card Gallery
+        </h1>
+        <div id="searchContainer">
+            <a id="searchLabel">Index: </a>
+            <input id="indexValues">
+            <button id="button" onclick="runCode()">Search</button>
+        </div>
+        
+        <h2>Pack Content</h2>
+        <hr>
+        <div id="table"></div>
+        <hr style="margin-top: 0">
+
+    </body>
+</html>
+
+<script>
+
+    indexValues.addEventListener("change", function(){
+        var indexString = indexValues.value;
+        var indexList = indexString.split(",");
+        var indexList = indexList.filter(Number);
+    });
+    
+    async function removeTable() {
+        document.getElementById("table").innerHTML = "";
+    }
+
+    async function fetchAndProcessCSV(indexes) {
+    try {
+        // Fetch the CSV file
+        const response = await fetch("https://raw.githubusercontent.com/gregknothe/OBS-Stuff-v2/refs/heads/main/cardList.csv");
+        const csvText = await response.text();
+
+        // Split CSV into lines
+        const lines = csvText.split('\n');
+
+        // Extract specific lines based on the provided indexes
+        const selectedLines = indexes.map(index => lines[index]).filter(Boolean);
+
+        // Process selected lines into an array of arrays (optional)
+        const result = selectedLines.map(line => line.split('|'));
+
+        //console.log(result); // Output the selected lines
+        return result;
+    } 
+    catch (error) {
+            console.error('Error fetching or processing CSV:', error);
+    }
+    }
+
+    //name|id|rarity|imgURL|setID|game|set|date|owner|fav
+    async function displayPack(data) {
+        data.forEach(row => {
+            const cardCell = document.createElement("div");
+            cardCell.className = "cell";
+            const cardInfo = document.createElement("div");
+            cardInfo.className = "cardInfo";
+            cardInfo.textContent = "Card Info";
+            const game_rarity = document.createElement("div");
+            game_rarity.className = "game_rarity";
+            const set_owner = document.createElement("div");
+            set_owner.className = "set_owner";
+            const name = document.createElement("div");
+            const cardID = document.createElement("div");
+            const rarity = document.createElement("div");
+            const cardImg = document.createElement("img");
+            const cardLink = document.createElement("a");
+            const game = document.createElement("div");
+            const set = document.createElement("div");
+            const owner = document.createElement("div");
+            var fav = 0;
+            var col = 0;
+            row.forEach(cell => {
+                //console.log(cell);
+                if (col == 0) {
+                    name.textContent = cell;
+                    name.className = "infoText";
+                }
+                else if (col == 1) {
+                    cardID.textContent = cell;
+                    cardID.className = "infoText";
+                }
+                else if (col == 2) {
+                    rarity.textContent = cell;
+                    rarity.className = "infoText";
+                }
+                else if (col == 3) {
+                    cardImg.className = "cardImg";
+                    cardImg.src = cell;
+                }
+                else if (col == 4) {
+                    col = col;
+                }
+                else if (col == 5) {
+                    game.textContent = cell;
+                    game.className = "infoText";
+                }
+                else if (col == 6) {
+                    set.textContent = cell;
+                    set.className = 'infoText'
+                }                
+                else if (col == 7) {
+                    col = col;
+                }
+                else if (col == 8) {
+                    owner.textContent = cell;
+                    owner.className = "infoText";
+                }
+                else if (col == 9) {
+                    fav = cell;
+                }
+                col = col + 1;
+            });
+            cardCell.appendChild(cardImg);
+            cardCell.appendChild(cardInfo);
+
+            const nameLabel = document.createElement("div");
+            nameLabel.textContent = "name:";
+            nameLabel.className = "infoTextLabel";
+            name.href = cardImg.src;
+            cardInfo.appendChild(nameLabel);
+            cardInfo.appendChild(name);
+
+            const cardIDLabel = document.createElement("div");
+            cardIDLabel.textContent = "card id:";
+            cardIDLabel.className = "infoTextLabel";
+            cardInfo.appendChild(cardIDLabel);
+            cardInfo.appendChild(cardID);
+
+            const rarityLabel = document.createElement("div");
+            rarityLabel.textContent = "rarity:";
+            rarityLabel.className = "infoTextLabel";
+            cardInfo.appendChild(rarityLabel);
+            cardInfo.appendChild(rarity);
+
+            const gameLabel = document.createElement("div");
+            gameLabel.textContent = "game:";
+            gameLabel.className = "infoTextLabel";
+            cardInfo.appendChild(gameLabel);
+            cardInfo.appendChild(game);
+
+            const setLabel = document.createElement("div");
+            setLabel.textContent = "set:";
+            setLabel.className = "infoTextLabel";
+            cardInfo.appendChild(setLabel);
+            cardInfo.appendChild(set);
+            
+            const ownerLabel = document.createElement("div");
+            ownerLabel.textContent = "owner:";
+            ownerLabel.className = "infoTextLabel";
+            cardInfo.appendChild(ownerLabel);
+            cardInfo.appendChild(owner);
+            table.appendChild(cardCell);
+        });
+    }
+
+    table.addEventListener('click', function(event) {
+    if (event.target.classList.contains('cardInfo')) {
+            console.log('Card clicked:', event.target.textContent);
+            if (event.target.style.height == "100%") {
+                event.target.style.height = "8%";
+            }
+            else {
+                event.target.style.height = "100%";
+            }
+        }
+    });
+
+    function getURLIndex(variable) {
+        const indexString = window.location.search.substring(1);
+        const vars = indexString.split("&");
+        for (let i=0; i < vars.length; i++) {
+            const pair = vars[i].split("=");
+            if (pair[0] == variable) {
+                return decodeURIComponent(pair[1] || "");
+            }
+        }
+        return null;
+    }
+
+    const inputField = document.getElementById("indexValues");
+
+    function populateIndex() {
+        const inputValue = getURLIndex("i");
+        //const inputField = document.getElementById("indexValues");
+        if (inputValue) {
+            inputField.value = inputValue;
+        }
+    }
+
+    window.onload = populateIndex;
+    
+    //var indexElement = document.getElementById("indexValues");
+    //var indexList = indexElement.value.split(",").filter(Number);
+
+    function createIndexList(indexString) {
+        var indexString2 = indexValues.value;
+        var indexList2 = indexString2.split(",");
+        return indexList2.filter(Number);
+    }
+
+    async function runCode() {
+        removeTable();
+        console.log(inputField.value);
+        console.log(createIndexList(inputField.value));
+        //let r = fetchAndProcessCSV(indexList);
+        //console.log(r[0]);
+        let r = await fetchAndProcessCSV(createIndexList(inputField.value));
+        console.log(r);
+        displayPack(r);
+        //displayPack(result);
+    }
+
+</script>
+

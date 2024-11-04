@@ -11,7 +11,8 @@ import sys
 gl = pd.read_csv("https://raw.githubusercontent.com/gregknothe/OBS-Stuff/refs/heads/main/finalGameList.csv", sep="|")
 rgl = pd.read_csv("https://raw.githubusercontent.com/GGSTFrameTrap/gameList/main/ranceGameList.csv", sep = "|")
 mgl = pd.read_csv("https://raw.githubusercontent.com/gregknothe/OBS-Stuff/refs/heads/main/monuGameList.csv", sep="|")
-cards = pd.read_csv("https://raw.githubusercontent.com/gregknothe/OBS-Stuff-v2/refs/heads/main/cardList.csv", sep="|").fillna("")
+#cards = pd.read_csv("https://raw.githubusercontent.com/gregknothe/OBS-Stuff-v2/refs/heads/main/cardList.csv", sep="|").fillna("")
+cards = pd.read_csv("https://raw.githubusercontent.com/gregknothe/OBS-Stuff-v2/refs/heads/main/smallCardList.csv", sep="|").fillna("")
 cards["id"] = cards["id"].astype(int)
 
 ownedCards = pd.DataFrame(columns=["name", "id", "rarity", "imgURL", "setID", "game", "set", "date", "owner", "fav"])
@@ -77,7 +78,8 @@ def drawCards(username):
 
 def saveCards():
     global cards
-    cards.to_csv("E:/Various Programs/Coding Projects/OBS Stuff v2/cardList.csv", sep="|", index=False)
+    #cards.to_csv("E:/Various Programs/Coding Projects/OBS Stuff v2/cardList.csv", sep="|", index=False)
+    cards.to_csv("E:/Various Programs/Coding Projects/OBS Stuff v2/smallCardList.csv", sep="|", index=False)
     return
 
 #----------------------------------Chat Bot Code------------------------------------#
@@ -165,8 +167,12 @@ async def favoriteCard(ctx, *, text):
     try:
         if ctx.author.name == str(cards["owner"][int(text[0])]):
             ownedCards = cards[cards["owner"]==ctx.author.name]
-            favCard = ownedCards[ownedCards["fav"]==int(text[1])]
-            await ctx.send(str(favCard.index[0]))
+            try:
+                favCard = ownedCards[ownedCards["fav"]==int(text[1])]
+                await ctx.send("Card being overwritten: " + str(favCard.index[0]))
+                cards.loc[int(favCard.index[0]), "fav"] = 0
+            except:
+                await ctx.send("Value not already saved.")
             cards.loc[int(text[0]), "fav"] = int(text[1])
             await ctx.send("["+ str(text[0]) + "] " + str(cards["name"][int(text[0])]) + " has been set to Fav #" + str(text[1]) + ".")
         else:
@@ -334,6 +340,6 @@ def script_properties():
     cat = "cat"
     return
 
-#Make a check for !fav to remove already existing same fav values 
+
 #Format rarity 
-#
+#Make sub page for index viewing
