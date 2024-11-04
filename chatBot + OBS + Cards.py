@@ -152,12 +152,23 @@ async def favoriteCard(ctx, *, text):
     #await ctx.send(currIndex)
     #await ctx.send(cards["name"][2])
     #print(cards.loc[cards["id"] == int(text[0]), "owner"].values[0])
+    try: 
+        if int(text[1]) not in [1,2,3,4,5]:
+            await ctx.send("Invalid Favorite Value: must be between 1 and 5.")
+            return
+    except:
+        await ctx.send("You forgot to add a Favorite Value (between 1 and 5).")
+        return
     print(ctx.author.name)
     print(text[0])
     print(cards["owner"][int(text[0])])
     try:
         if ctx.author.name == str(cards["owner"][int(text[0])]):
+            ownedCards = cards[cards["owner"]==ctx.author.name]
+            favCard = ownedCards[ownedCards["fav"]==int(text[1])]
+            await ctx.send(str(favCard.index[0]))
             cards.loc[int(text[0]), "fav"] = int(text[1])
+            await ctx.send("["+ str(text[0]) + "] " + str(cards["name"][int(text[0])]) + " has been set to Fav #" + str(text[1]) + ".")
         else:
             await ctx.send("You do not own that card.🐛")
     except:
@@ -292,8 +303,6 @@ def display_card(img1, img2, img3, img4, img5, username):
 
     threading.Timer(durration2, hide_group2).start()
 
-
-
 #Description of the script in the script menu, crazy.
 def script_description():
     return "Active the bot via the 'Twitch Chat Bot Start' hotkey."
@@ -326,6 +335,5 @@ def script_properties():
     return
 
 #Make a check for !fav to remove already existing same fav values 
-#Add cooldown to !pack so animation doesnt get fucked
 #Format rarity 
 #
