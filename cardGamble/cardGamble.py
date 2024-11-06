@@ -227,8 +227,10 @@ def createFinalFile():
     for x in finalDF.index:
         if "https://storage.googleapis.com/ygoprodeck.com" in finalDF.at[x, "imgURL"]:
             finalDF.loc[x, "imgURL"] = finalDF.at[x, "imgURL"].replace("https://storage.googleapis.com/ygoprodeck.com/pics/", "https://images.ygoprodeck.com/images/cards/")
+    finalDF = finalDF.reset_index(drop=True)
     finalDF["owner"] = ""
     finalDF["fav"] = 0
+    finalDF["name"] = [x.replace("\n", "-") for x in finalDF["name"]]
     #finalDF["id"] = finalDF["id"].astype(int)\
     #finalDF["id"] = [x + 1 for x in finalDF.index]
     finalDF["id"] = finalDF.index
