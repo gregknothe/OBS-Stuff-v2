@@ -209,7 +209,7 @@ def createFinalFile():
         df = pd.read_csv("cardGamble/gameDataframes/"+game, delimiter="|").fillna("")
         finalDF = pd.concat([finalDF, df])
     finalDF = finalDF.reset_index(drop=True).drop(["Unnamed: 0"], axis=1)
-    finalDF = finalDF[finalDF["imgURL"]!=""]
+    finalDF = finalDF[finalDF["imgURL"]!=""].reset_index(drop=True)
     for x in finalDF.index:
         if "https://storage.googleapis.com/ygoprodeck.com" in finalDF.at[x, "imgURL"]:
             finalDF.loc[x, "imgURL"] = finalDF.at[x, "imgURL"].replace("https://storage.googleapis.com/ygoprodeck.com/pics/", "https://images.ygoprodeck.com/images/cards/")
