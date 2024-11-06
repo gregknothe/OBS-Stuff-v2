@@ -230,7 +230,8 @@ def createFinalFile():
     finalDF["owner"] = ""
     finalDF["fav"] = 0
     #finalDF["id"] = finalDF["id"].astype(int)\
-    finalDF["id"] = [x + 1 for x in finalDF.index]
+    #finalDF["id"] = [x + 1 for x in finalDF.index]
+    finalDF["id"] = finalDF.index
     finalDF["rarity"] = finalDF["rarity"].astype(int)
     finalDF["rarity"] = [assignRarity(x) for x in finalDF.rarity]
     finalDF["game"] = finalDF["game"].str.replace('-', ' ', regex=False)
