@@ -343,5 +343,5 @@ def script_properties():
 
 
 #Format rarity 
-#change id values to index values
 #Make pages look better
+#Add trading functionalty 

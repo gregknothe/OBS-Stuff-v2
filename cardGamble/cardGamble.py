@@ -202,6 +202,20 @@ def gameStats():
 
 #print(gameStats().to_string())
 
+def assignRarity(rarityValue):
+    if rarityValue in range(0,19) or rarityValue in ["", 1012, 2002]:
+        return "Common"
+    elif rarityValue in range(20,29):
+        return "Uncommon"
+    elif rarityValue in range(30,31) or rarityValue in [1013, 1015, 1018, 1019, 1023]:
+        return "Rare"
+    elif rarityValue in range(33,39) or rarityValue == 1020:
+        return "Super Rare"
+    elif rarityValue in range(40, 999) or rarityValue in [1014, 1022, 1047]:
+        return "Ultra Rare"
+    else: 
+        return "Secret Rare"
+
 def createFinalFile():
     games = os.listdir("E:\Various Programs\Coding Projects\OBS STUFF\cardGamble\gameDataframes")
     finalDF = pd.DataFrame()
@@ -218,10 +232,22 @@ def createFinalFile():
     #finalDF["id"] = finalDF["id"].astype(int)\
     finalDF["id"] = [x + 1 for x in finalDF.index]
     finalDF["rarity"] = finalDF["rarity"].astype(int)
+    finalDF["rarity"] = [assignRarity(x) for x in finalDF.rarity]
     finalDF["game"] = finalDF["game"].str.replace('-', ' ', regex=False)
     finalDF.to_csv("cardList.csv", sep="|", index=False)
     return finalDF
 
 createFinalFile()
 
+"""
+df = pd.read_csv("cardList.csv", sep="|")
+print(df["rarity"].value_counts())
 
+r = ["c", "r", "u", "ur", "scr", "sr"]
+c = [67147,28214,25259,17149,7796,5493]
+t = sum(c)
+c = [round(x/t,2) for x in c]
+
+print(r)
+print(c)
+"""
