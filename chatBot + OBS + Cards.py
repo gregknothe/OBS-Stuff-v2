@@ -74,7 +74,8 @@ def drawCards(username):
         ownedCards.loc[len(ownedCards)] = list(cards.loc[card])
         imgList.append(cards.loc[card, "imgURL"])
     ownedCards.to_csv("E:\Various Programs\Coding Projects\OBS Stuff v2\cardBackup.csv", sep="|", index=False)
-    return newCards, imgList[0], imgList[1], imgList[2], imgList[3], imgList[4]
+    cardString = ",".join(str(x) for x in newCards).replace(",", "%2C")
+    return cardString, imgList[0], imgList[1], imgList[2], imgList[3], imgList[4]
 
 def saveCards():
     global cards
@@ -125,7 +126,7 @@ async def openCardPack(ctx):
             display_card(cards[1], cards[2], cards[3], cards[4], cards[5], ctx.author.name)
             packList.append(ctx.author.name)
             packTimeStamp = time.time()
-            await ctx.send(str(cards[0]) + " @" + ctx.author.name)
+            await ctx.send("Click to view your cards: gregknothe.github.io/OBS-Stuff-v2/g?i="+ cards[0] + " @" + ctx.author.name)
         else: 
             await ctx.send("!pack is on cooldown.🐛")
     else: 
@@ -342,4 +343,5 @@ def script_properties():
 
 
 #Format rarity 
-#Make sub page for index viewing
+#change id values to index values
+#Make pages look better
