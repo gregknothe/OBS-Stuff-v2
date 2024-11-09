@@ -4,7 +4,9 @@ import os
 def userCardFiles():
     df = pd.read_csv("cardList.csv", sep="|",).fillna("")
     userList = []
-    for user in list(df["owner"].unique()):
+    uniqueUser = list(df["owner"].unique())
+    uniqueUser = filter(None, uniqueUser)
+    for user in uniqueUser:
         print(user)
         userList.append(user)
         userDF = df[df["owner"]==user]
