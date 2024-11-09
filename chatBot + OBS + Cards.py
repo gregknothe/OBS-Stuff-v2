@@ -186,19 +186,19 @@ async def favoriteCard(ctx, *, text):
 async def trade(ctx, *, text):
     try:
         if ctx.author.name in modList:
-            id1 = text.split(" ")[0]
-            id2 = text.split(" ")[1]
+            id1 = int(text.split(" ")[0])-1
+            id2 = int(text.split(" ")[1])-1
             print(id1)
             print(id2)
-            owner1 = cards.iloc[int(id1)-1]["owner"]
-            owner2 = cards.iloc[int(id2)-1]["owner"]
+            owner1 = cards.iloc[id1]["owner"]
+            owner2 = cards.iloc[id2]["owner"]
             print(owner1)
             print(owner2)
-            cards.at[int(id1)-1, "owner"] = owner2
-            cards.at[int(id2)-2, "owner"] = owner1
-            print(cards.at[int(id1)-1, "owner"])
-            print(cards.at[int(id2)-1, "owner"])
-            await ctx.send("trade: (" + owner1 + ") " + str(id1) + " <-> (" + owner2 + ") " + str(id2))
+            cards.at[id1, "owner"] = owner2
+            cards.at[id2, "owner"] = owner1
+            print(cards.at[id1, "owner"])
+            print(cards.at[id2, "owner"])
+            await ctx.send("trade: (" + owner1 + ") " + str(id1+1) + " <-> (" + owner2 + ") " + str(id2+1))
     except:
         await ctx.send("Something went wrong.😔")
     
