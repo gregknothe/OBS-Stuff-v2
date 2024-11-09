@@ -165,9 +165,9 @@ async def favoriteCard(ctx, *, text):
         return
     print(ctx.author.name)
     print(text[0])
-    print(cards["owner"][int(text[0])])
+    print(cards["owner"][int(text[0])-1])
     try:
-        if ctx.author.name == str(cards["owner"][int(text[0])]):
+        if ctx.author.name == str(cards["owner"][int(text[0])-1]):
             ownedCards = cards[cards["owner"]==ctx.author.name]
             try:
                 favCard = ownedCards[ownedCards["fav"]==int(text[1])]
@@ -175,8 +175,8 @@ async def favoriteCard(ctx, *, text):
                 cards.loc[int(favCard.index[0]), "fav"] = 0
             except:
                 await ctx.send("Value not already saved.")
-            cards.loc[int(text[0]), "fav"] = int(text[1])
-            await ctx.send("["+ str(text[0]) + "] " + str(cards["name"][int(text[0])]) + " has been set to Fav #" + str(text[1]) + ".")
+            cards.loc[int(text[0])-1, "fav"] = int(text[1])
+            await ctx.send("["+ str(text[0]) + "] " + str(cards["name"][int(text[0])-1]) + " has been set to Fav #" + str(text[1]) + ".")
         else:
             await ctx.send("You do not own that card.🐛")
     except:
@@ -194,10 +194,10 @@ async def trade(ctx, *, text):
             owner2 = cards.iloc[int(id2)-1]["owner"]
             print(owner1)
             print(owner2)
-            cards.at[id1, "owner"] = owner2
-            cards.at[id2, "owner"] = owner1
-            print(cards.at[id1, "owner"])
-            print(cards.at[id2, "owner"])
+            cards.at[int(id1)-1, "owner"] = owner2
+            cards.at[int(id2)-2, "owner"] = owner1
+            print(cards.at[int(id1)-1, "owner"])
+            print(cards.at[int(id2)-1, "owner"])
             await ctx.send("trade: (" + owner1 + ") " + str(id1) + " <-> (" + owner2 + ") " + str(id2))
     except:
         await ctx.send("Something went wrong.😔")
