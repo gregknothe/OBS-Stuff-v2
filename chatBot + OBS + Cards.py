@@ -74,13 +74,14 @@ def drawCards(username):
         ownedCards.loc[len(ownedCards)] = list(cards.loc[card])
         imgList.append(cards.loc[card, "imgURL"])
     ownedCards.to_csv("E:\Various Programs\Coding Projects\OBS Stuff v2\cardBackup.csv", sep="|", index=False)
+    newCards = [x + 1 for x in newCards]
     cardString = ",".join(str(x) for x in newCards).replace(",", "%2C")
     return cardString, imgList[0], imgList[1], imgList[2], imgList[3], imgList[4]
 
 def saveCards():
     global cards
     #cards.to_csv("E:/Various Programs/Coding Projects/OBS Stuff v2/cardList.csv", sep="|", index=False)
-    cards.to_csv("E:/Various Programs/Coding Projects/OBS Stuff v2/smallCardList.csv", sep="|", index=False)
+    cards.to_csv("E:/Various Programs/Coding Projects/OBS Stuff v2/cardList.csv", sep="|", index=False)
     return
 
 #----------------------------------Chat Bot Code------------------------------------#
@@ -180,6 +181,27 @@ async def favoriteCard(ctx, *, text):
             await ctx.send("You do not own that card.🐛")
     except:
         await ctx.send("Something went wrong.😔")
+
+@bot.command(name="trade")
+async def trade(ctx, *, text):
+    try:
+        if ctx.author.name in modList:
+            id1 = text.split(" ")[0]
+            id2 = text.split(" ")[1]
+            print(id1)
+            print(id2)
+            owner1 = cards.iloc[int(id1)-1]["owner"]
+            owner2 = cards.iloc[int(id2)-1]["owner"]
+            print(owner1)
+            print(owner2)
+            cards.at[id1, "owner"] = owner2
+            cards.at[id2, "owner"] = owner1
+            print(cards.at[id1, "owner"])
+            print(cards.at[id2, "owner"])
+            await ctx.send("trade: (" + owner1 + ") " + str(id1) + " <-> (" + owner2 + ") " + str(id2))
+    except:
+        await ctx.send("Something went wrong.😔")
+    
 
 @bot.command(name="save")
 async def saveFile(ctx):
