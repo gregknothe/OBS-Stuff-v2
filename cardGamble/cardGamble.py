@@ -14,9 +14,16 @@ import os
 #
 
 #gameList = ["https://www.ccgtrader.net/games/pokemon-tcg", "https://www.ccgtrader.net/games/magic-the-gathering-ccg", "https://www.ccgtrader.net/games/yu-gi-oh-tcg"]
-gameList = ["https://www.ccgtrader.net/games/yu-gi-oh-tcg",
-            "https://www.ccgtrader.net/games/pokemon-tcg",
-            "https://www.ccgtrader.net/games/magic-the-gathering-ccg",
+
+
+#MTG = https://api.ccgtrader.co.uk/_/items/card?fields%5B0%5D=id&fields%5B1%5D=name&fields%5B2%5D=number&fields%5B3%5D=subtitle&fields%5B4%5D=rarity.id&fields%5B5%5D=image_url&fields%5B6%5D=image.data.asset_url&fields%5B7%5D=number&fields%5B8%5D=reference&fields%5B9%5D=type&fields%5B10%5D=url_title&filter%5Bset%5D%5Beq%5D=2067&sort=number%2Ctype%2Cname&limit=4999
+#Pkmn = 
+#Ygo = 
+
+gameListMTG = ["https://www.ccgtrader.net/games/magic-the-gathering-ccg"]
+
+gameList = ["https://www.ccgtrader.net/games/pokemon-tcg",
+            "https://www.ccgtrader.net/games/yu-gi-oh-tcg",
             "https://www.ccgtrader.net/games/cardcaptors-tcg",
             "https://www.ccgtrader.net/games/hack-g-u",
             "https://www.ccgtrader.net/games/digi-battle-ccg",
@@ -27,21 +34,17 @@ gameList = ["https://www.ccgtrader.net/games/yu-gi-oh-tcg",
             "https://www.ccgtrader.net/games/club-penguin-tcg",
             "https://www.ccgtrader.net/games/fire-emblem-cipher-tcg",
             "https://www.ccgtrader.net/games/lego-bionicle-bohrok-swarm-tcg",
-            "https://www.ccgtrader.net/games/megaman-nt-warrior-tcg"
-            ]
-
-gameList2 = ["https://www.ccgtrader.net/games/sailor-moon-ccg",
+            "https://www.ccgtrader.net/games/megaman-nt-warrior-tcg",
+            "https://www.ccgtrader.net/games/sailor-moon-ccg",
              "https://www.ccgtrader.net/games/sonic-x-tcg",
              "https://www.ccgtrader.net/games/naruto-ccg",
              "https://www.ccgtrader.net/games/initial-d-ccg",
              "https://www.ccgtrader.net/games/neopets-tcg",
-             "https://www.ccgtrader.net/games/beyblade-ccg",
+             "https://www.ccgtrader.net/games/beyblade-ccg", 
              "https://www.ccgtrader.net/games/digimon-d-tector-ccg",
              "https://www.ccgtrader.net/games/dragon-ball-super-card-game",
-             "https://www.ccgtrader.net/games/final-fantasy-tcg-opus"
-             ]
-
-gameList3 = ["https://www.ccgtrader.net/games/hackenemy-ccg",
+             "https://www.ccgtrader.net/games/final-fantasy-tcg-opus",
+             "https://www.ccgtrader.net/games/hackenemy-ccg",
              "https://www.ccgtrader.net/games/chaotic-tcg",
              "https://www.ccgtrader.net/games/buffy-the-vampire-slayer-ccg",
              "https://www.ccgtrader.net/games/dice-masters",
@@ -50,10 +53,8 @@ gameList3 = ["https://www.ccgtrader.net/games/hackenemy-ccg",
              "https://www.ccgtrader.net/games/jackie-chan-adventures",
              "https://www.ccgtrader.net/games/gundam-ms-war-tcg",
              "https://www.ccgtrader.net/games/fullmetal-alchemist-tcg",
-             "https://www.ccgtrader.net/games/dragon-booster-tcg"
-            ]
-
-gameList4 = ["https://www.ccgtrader.net/games/anachronism",
+             "https://www.ccgtrader.net/games/dragon-booster-tcg",
+             "https://www.ccgtrader.net/games/anachronism",
              "https://www.ccgtrader.net/games/ani-mayhem-ccg",
              "https://www.ccgtrader.net/games/24-tcg",
              "https://www.ccgtrader.net/games/inuyasha-tcg",
@@ -73,7 +74,6 @@ gameList4 = ["https://www.ccgtrader.net/games/anachronism",
              "https://www.ccgtrader.net/games/wwe-raw-deal",
              "https://www.ccgtrader.net/games/torchwood-tcg",
              "https://www.ccgtrader.net/games/transformers-tcg",
-             "https://www.ccgtrader.net/games/redemption-ccg",
              "https://www.ccgtrader.net/games/knights-of-the-zodiac-ccg",
              "https://www.ccgtrader.net/games/dragon-quest-tcg",
              "https://www.ccgtrader.net/games/caster-chronicles-tcg",
@@ -81,11 +81,11 @@ gameList4 = ["https://www.ccgtrader.net/games/anachronism",
              "https://www.ccgtrader.net/games/future-card-buddyfight",
              "https://www.ccgtrader.net/games/the-simpsons-tcg",
              "https://www.ccgtrader.net/games/star-trek-the-card-game-ccg",
-             "https://www.ccgtrader.net/games/maplestory-itcg"
-            ]
+             "https://www.ccgtrader.net/games/maplestory-itcg",
+             "https://www.ccgtrader.net/games/dune-ccg"
+             ]
 
 
-gameList5 = ["https://www.ccgtrader.net/games/dune-ccg"]
 
 def jsonViewer(url):
     resp = requests.get(url)
@@ -138,9 +138,15 @@ def getCards(setID):
         cardData = data[card]
         nameList.append(cardData["name"])
         try:
-            urlList.append(cardData["image"]["data"]["full_url"])
+            if cardData["image_url"] != None:
+                urlList.append(cardData["image_url"])
+            else:
+                raise Exception()
         except:
-            urlList.append(cardData["image_url"])
+            try:
+                urlList.append("https://api.ccgtrader.co.uk" + cardData["image"]["data"]["asset_url"])
+            except:
+                urlList.append("")
         try:
             rarityList.append(cardData["rarity"]["id"])
         except:
@@ -150,8 +156,8 @@ def getCards(setID):
     return df
 
 def createGameDataframe():
-    #games = os.listdir("E:\Various Programs\Coding Projects\OBS STUFF\cardGamble\gameSets")
-    games = [game.replace("https://www.ccgtrader.net/games/","") + ".csv" for game in gameList4]
+    #games = os.listdir("E:\Various Programs\Coding Projects\OBS STUFF V2\cardGamble\gameSets")
+    games = [game.replace("https://www.ccgtrader.net/games/","") + ".csv" for game in gameList2]
     for game in games:
         print(">>> " + game.replace(".csv","") + " <<<")
         gameDF = pd.read_csv("cardGamble/gameSets/"+game, delimiter="|")
@@ -185,7 +191,8 @@ def magicUnique():
 #magicUnique()
 
 def gameStats():
-    games = os.listdir("E:\Various Programs\Coding Projects\OBS STUFF\cardGamble\gameDataframes")
+    games = os.listdir("E:/Various Programs/Coding Projects/OBS STUFF V2/cardGamble/gameDataframes")
+    #print(games)
     gameList, rawList, uniqueList = [], [], []
     for game in games:
         df = pd.read_csv("cardGamble/gameDataframes/"+game, delimiter="|").fillna("")
@@ -217,7 +224,7 @@ def assignRarity(rarityValue):
         return "Secret Rare"
 
 def createFinalFile():
-    games = os.listdir("E:\Various Programs\Coding Projects\OBS STUFF\cardGamble\gameDataframes")
+    games = os.listdir("E:\Various Programs\Coding Projects\OBS STUFF V2\cardGamble\gameDataframes")
     finalDF = pd.DataFrame()
     for game in games:
         df = pd.read_csv("cardGamble/gameDataframes/"+game, delimiter="|").fillna("")
@@ -232,6 +239,7 @@ def createFinalFile():
     finalDF["fav"] = 0
     finalDF["name"] = [x.replace("\n", "-") for x in finalDF["name"]]
     #finalDF["id"] = finalDF["id"].astype(int)\
+    finalDF["rawID"] = finalDF["id"]
     finalDF["id"] = [x + 1 for x in finalDF.index]
     #finalDF["id"] = finalDF.index
     finalDF["rarity"] = finalDF["rarity"].astype(int)
@@ -240,7 +248,7 @@ def createFinalFile():
     finalDF.to_csv("cardList.csv", sep="|", index=False)
     return finalDF
 
-createFinalFile()
+#createFinalFile()
 
 """
 df = pd.read_csv("cardList.csv", sep="|")

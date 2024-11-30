@@ -188,16 +188,18 @@ async def trade(ctx, *, text):
         if ctx.author.name in modList:
             id1 = int(text.split(" ")[0])-1
             id2 = int(text.split(" ")[1])-1
-            print(id1)
-            print(id2)
+            #print(id1)
+            #print(id2)
             owner1 = cards.iloc[id1]["owner"]
             owner2 = cards.iloc[id2]["owner"]
-            print(owner1)
-            print(owner2)
+            #print(owner1)
+            #print(owner2)
             cards.at[id1, "owner"] = owner2
             cards.at[id2, "owner"] = owner1
-            print(cards.at[id1, "owner"])
-            print(cards.at[id2, "owner"])
+            cards.at[id1, "fav"] = 0
+            cards.at[id2, "fav"] = 0
+            #print(cards.at[id1, "owner"])
+            #print(cards.at[id2, "owner"])
             await ctx.send("trade: (" + owner1 + ") " + str(id1+1) + " <-> (" + owner2 + ") " + str(id2+1))
     except:
         await ctx.send("Something went wrong.😔")
@@ -276,9 +278,14 @@ def display_game(title, img, rarity, username):
 
 def display_card(img1, img2, img3, img4, img5, username):
 
-    #Getting required info from !hey command.
+    #Getting required info from !pacl command.
     settings = obs.obs_data_create()
     scene = obs.obs_scene_from_source(obs.obs_frontend_get_current_scene())
+
+    #Updating the pack Image.
+    imgSource1= obs.obs_get_source_by_name("pack")
+    obs.obs_data_set_string(settings, "url", img1)
+    obs.obs_source_update(imgSource1, settings)
 
     #Updating the card1 Image.
     imgSource1= obs.obs_get_source_by_name("card1")
@@ -332,6 +339,7 @@ def display_card(img1, img2, img3, img4, img5, username):
 
     threading.Timer(durration2, hide_group2).start()
 
+
 #Description of the script in the script menu, crazy.
 def script_description():
     return "Active the bot via the 'Twitch Chat Bot Start' hotkey."
@@ -363,6 +371,4 @@ def script_properties():
     cat = "cat"
     return
 
-
 #Make pages look better
-#Add trading functionalty 
