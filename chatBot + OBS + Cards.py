@@ -15,7 +15,7 @@ cards = pd.read_csv("https://raw.githubusercontent.com/gregknothe/OBS-Stuff-v2/r
 #cards = pd.read_csv("https://raw.githubusercontent.com/gregknothe/OBS-Stuff-v2/refs/heads/main/smallCardList.csv", sep="|").fillna("")
 cards["id"] = cards["id"].astype(int)
 
-ownedCards = pd.DataFrame(columns=["name", "id", "rarity", "imgURL", "setID", "game", "set", "date", "owner", "fav"])
+ownedCards = pd.DataFrame(columns=["name", "id", "rarity", "imgURL", "setID", "game", "set", "date", "owner", "fav", "rawID"])
 
 silver = r"C:\Users\Greg Knothe\Desktop\silverClaireAnimated.gif"
 gold = r"C:\Users\Greg Knothe\Desktop\silverClaireAnimated.gif"
@@ -36,6 +36,7 @@ packTimeStamp = time.time()
 cooldown2 = 7
 durration2 = 6
 packSize = 5
+cardDurr = 2
 
 hotkey_id = obs.OBS_INVALID_HOTKEY_ID
 
@@ -276,40 +277,41 @@ def display_game(title, img, rarity, username):
     threading.Timer(durration, hide_group).start()
 
 
+def correctURL(url):
+    if "https://api.ccgtrader.co.uk/" in url:
+        return url + "?key=card-medium"
+    else: 
+        return url
+
 def display_card(img1, img2, img3, img4, img5, username):
 
-    #Getting required info from !pacl command.
+    #Getting required info from !pack command.
     settings = obs.obs_data_create()
     scene = obs.obs_scene_from_source(obs.obs_frontend_get_current_scene())
 
-    #Updating the pack Image.
-    imgSource1= obs.obs_get_source_by_name("pack")
-    obs.obs_data_set_string(settings, "url", img1)
-    obs.obs_source_update(imgSource1, settings)
-
     #Updating the card1 Image.
     imgSource1= obs.obs_get_source_by_name("card1")
-    obs.obs_data_set_string(settings, "url", img1)
+    obs.obs_data_set_string(settings, "url", correctURL(img1))
     obs.obs_source_update(imgSource1, settings)
 
     #Updating the card2 Image.
     imgSource2 = obs.obs_get_source_by_name("card2")
-    obs.obs_data_set_string(settings, "url", img2)
+    obs.obs_data_set_string(settings, "url", correctURL(img2))
     obs.obs_source_update(imgSource2, settings)
 
     #Updating the card3 Image.
     imgSource3 = obs.obs_get_source_by_name("card3")
-    obs.obs_data_set_string(settings, "url", img3)
+    obs.obs_data_set_string(settings, "url", correctURL(img3))
     obs.obs_source_update(imgSource3, settings)
 
     #Updating the card4 Image.
     imgSource4 = obs.obs_get_source_by_name("card4")
-    obs.obs_data_set_string(settings, "url", img4)
+    obs.obs_data_set_string(settings, "url", correctURL(img4))
     obs.obs_source_update(imgSource4, settings)
 
     #Updating the card5 Image.
     imgSource5 = obs.obs_get_source_by_name("card5")
-    obs.obs_data_set_string(settings, "url", img5)
+    obs.obs_data_set_string(settings, "url", correctURL(img5))
     obs.obs_source_update(imgSource5, settings)
 
     #Updating the User Name.
@@ -322,9 +324,38 @@ def display_card(img1, img2, img3, img4, img5, username):
     group = obs.obs_scene_sceneitem_from_source(scene, groupSource)
     obs.obs_sceneitem_set_visible(group, True)
 
+    def hide_card1():
+        obs.obs_source_set_enabled(imgSource1, False)
+    
+    def hide_card2():
+        obs.obs_source_set_enabled(imgSource2, False)
+    
+    def hide_card3():
+        obs.obs_source_set_enabled(imgSource3, False)
+    
+    def hide_card4():
+        obs.obs_source_set_enabled(imgSource4, False)
+    
+    def hide_card5():
+        obs.obs_source_set_enabled(imgSource5, False)
+    
+    threading.Timer(cardDurr*1, hide_card1).start()
+    threading.Timer(cardDurr*2, hide_card2).start()
+    threading.Timer(cardDurr*3, hide_card3).start()
+    threading.Timer(cardDurr*4, hide_card4).start()
+    threading.Timer(cardDurr*5, hide_card5).start()
+
+
     #Hides the visuals after set durration time.
+    #Need to set all back to visible after they disappear
     def hide_group2():
         obs.obs_sceneitem_set_visible(group, False)
+
+        obs.obs_source_set_enabled(imgSource1, True)
+        obs.obs_source_set_enabled(imgSource2, True)
+        obs.obs_source_set_enabled(imgSource3, True)
+        obs.obs_source_set_enabled(imgSource4, True)
+        obs.obs_source_set_enabled(imgSource5, True)
 
         #Releasing the sources.
         obs.obs_data_release(settings)
@@ -337,7 +368,7 @@ def display_card(img1, img2, img3, img4, img5, username):
         obs.obs_source_release(groupSource)
         obs.obs_scene_release(scene)
 
-    threading.Timer(durration2, hide_group2).start()
+    threading.Timer(cardDurr*6, hide_group2).start()
 
 
 #Description of the script in the script menu, crazy.
